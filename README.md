@@ -1,2 +1,405 @@
-# TrendX
-Invest For Your Future
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendX - Premium Crypto Chain</title>
+    <!-- Tailwind CSS for vibrant, energetic UI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .animate-marquee {
+            animation: marquee 25s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-white font-sans min-h-screen flex flex-col selection:bg-emerald-500 selection:text-slate-950">
+
+    <!-- ================= RUNNING CRYPTO NEWS TICKER ================= -->
+    <div class="w-full bg-gradient-to-r from-emerald-400 via-cyan-500 to-indigo-600 text-slate-950 font-black py-2.5 overflow-hidden sticky top-0 z-50 shadow-xl tracking-wider text-xs uppercase">
+        <div class="whitespace-nowrap animate-marquee flex space-x-12">
+            <span>🔥 <b>TrendX Chain:</b> Network expansion protocol successfully validated across all nodes!</span>
+            <span>🚀 <b>Crypto Market Update:</b> Whales increase lock positions in TrendX 5-Year Maturity Vaults.</span>
+            <span>⚡ <b>Risk Protection:</b> Lock today's rate; completely exempt from asset price inflation at maturity.</span>
+            <span>📈 <b>TrendX Token (TXC):</b> Trading steady at a fixed base of ₹1,000 INR.</span>
+        </div>
+    </div>
+
+    <!-- ================= PAGE 1: LOGIN & REGISTRATION GATEWAY ================= -->
+    <div id="authSection" class="flex-1 flex items-center justify-center p-6 bg-[radial-gradient(circle_at_bottom,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-slate-950">
+        <div class="bg-slate-900/90 border-2 border-emerald-500/20 p-8 rounded-3xl shadow-[0_0_50px_rgba(16,185,129,0.1)] w-full max-w-md backdrop-blur-md">
+            <div class="text-center mb-8">
+                <h1 class="bg-gradient-to-r from-emerald-400 via-cyan-400 to-indigo-500 text-transparent bg-clip-text font-black text-5xl tracking-widest uppercase">TrendX</h1>
+                <p class="text-slate-400 mt-2 text-xs font-bold tracking-widest" id="authSubtitle">CROSS-DEVICE ALPHANUMERIC ACCESS PORTAL</p>
+            </div>
+
+            <div id="authMessage" class="hidden mb-4 p-3 rounded-xl text-xs text-center font-bold uppercase tracking-wider"></div>
+
+            <form id="authForm" onsubmit="handleAuth(event)">
+                <div class="mb-4">
+                    <label class="block text-slate-300 text-xs font-bold uppercase tracking-wider mb-2">Alphanumeric Username</label>
+                    <input type="text" id="authUsername" required placeholder="Letters and numbers only" class="w-full bg-slate-800 border-2 border-slate-700 focus:border-emerald-400 rounded-xl p-3 font-mono text-white placeholder-slate-600 focus:outline-none transition-all">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-slate-300 text-xs font-bold uppercase tracking-wider mb-2">Alphanumeric Password</label>
+                    <input type="password" id="authPassword" required placeholder="Letters and numbers only" class="w-full bg-slate-800 border-2 border-slate-700 focus:border-emerald-400 rounded-xl p-3 font-mono text-white placeholder-slate-600 focus:outline-none transition-all">
+                </div>
+                
+                <button type="submit" id="submitBtn" class="w-full bg-gradient-to-r from-emerald-400 via-cyan-500 to-indigo-600 hover:brightness-110 text-slate-950 font-black tracking-widest uppercase py-4 rounded-xl transition transform active:scale-95 shadow-xl shadow-emerald-500/20">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="mt-6 text-center text-xs font-bold tracking-wider text-slate-400">
+                <span id="toggleText">NOT REGISTERED YET?</span>
+                <button onclick="toggleAuthMode()" id="toggleBtn" class="text-emerald-400 hover:text-cyan-400 ml-1 transition uppercase underline decoration-2">Create Credentials</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MAIN PLATFORM LAYOUT (HIDDEN UNTIL LOGIN) ================= -->
+    <div id="dashboardSection" class="hidden flex-1 p-6 max-w-7xl mx-auto w-full">
+        
+        <!-- Dashboard Header Navigation -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b-2 border-slate-900 pb-6 gap-4">
+            <div>
+                <h2 class="text-3xl font-black tracking-tight">User: <span id="userDisplay" class="bg-gradient-to-r from-emerald-400 to-cyan-400 text-transparent bg-clip-text">Investor</span></h2>
+                <nav class="flex space-x-4 mt-3 text-xs font-bold uppercase tracking-wider">
+                    <button onclick="switchTab('invest')" id="tab-invest" class="text-emerald-400 border-b-2 border-emerald-400 pb-1 px-1 transition-all">Trading Dashboard</button>
+                    <button onclick="switchTab('analytics')" id="tab-analytics" class="text-slate-400 hover:text-white pb-1 px-1 transition-all">Advanced Analytics</button>
+                    <button onclick="logout()" class="text-rose-400 hover:text-rose-300 font-black uppercase">Sign Out</button>
+                </nav>
+            </div>
+            <div class="text-right hidden md:block">
+                <p class="text-slate-500 text-[10px] font-black tracking-widest">NETWORK LEDGER STATUS</p>
+                <span class="text-emerald-400 font-mono font-bold text-xs">● SECURE & SYNCHRONIZED</span>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 2: TRADING DASHBOARD TAB ================= -->
+        <div id="tabContent-invest" class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-8">
+                <!-- SIMPLE RULES CARD -->
+                <div class="bg-gradient-to-br from-slate-900 via-indigo-950/40 to-slate-900 p-6 rounded-3xl border-2 border-emerald-500/20 shadow-2xl">
+                    <h3 class="text-xl font-black text-yellow-400 uppercase tracking-wider mb-4 flex items-center gap-2">
+                        ⭐ OUR SIMPLE INVESTING RULES
+                    </h3>
+                    <div class="space-y-4 text-slate-300 text-sm font-medium">
+                        <p class="border-l-4 border-emerald-400 pl-3">
+                            <b class="text-emerald-400 block text-xs uppercase tracking-wider mb-0.5">1. The 5-Year Hold Rule</b>
+                            When you secure TrendX coins, your digital assets are safely held on our chain network for up to 5 years.
+                        </p>
+                        <p class="border-l-4 border-cyan-400 pl-3">
+                            <b class="text-cyan-400 block text-xs uppercase tracking-wider mb-0.5">2. Lock Today's Entry Value</b>
+                            You pay based on the absolute locked token pricing tracked on the exact date of your purchase.
+                        </p>
+                        <p class="border-l-4 border-yellow-400 pl-3">
+                            <b class="text-yellow-400 block text-xs uppercase tracking-wider mb-0.5">3. Protection Example</b>
+                            If you purchase 10 coins today at <b>₹1,000 per coin</b>, your locked rate is ₹1,000. After 5 years, even if market valuation pumps up to <b>₹3,000 per coin</b>, you only need to clear the original locked value of **₹1,000 per coin** at final maturity—saving you from paying the full market spike cost!
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Transaction Desk Terminal -->
+                <div class="bg-slate-900 p-6 rounded-3xl border-2 border-slate-800 shadow-xl">
+                    <h3 class="text-base font-black uppercase tracking-wider mb-6 text-emerald-400 flex items-center gap-2">💰 Transaction Terminal</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Today's Standard Price</label>
+                            <div class="text-4xl font-mono font-black text-emerald-400">₹1,000 <span class="text-xs text-slate-500 font-sans font-bold">INR / TXC</span></div>
+                        </div>
+                        <div>
+                            <label class="block text-slate-400 text-xs font-bold uppercase tracking-wider mb-2">Coin Volume to Buy</label>
+                            <input type="number" id="coinQuantity" value="10" min="1" oninput="calculateMaturity()" class="w-full bg-slate-800 border-2 border-slate-700 focus:border-emerald-400 rounded-xl p-3 font-mono text-white font-bold focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Breakdown Sheet -->
+                    <div class="mt-6 p-4 bg-slate-950 rounded-xl border border-slate-800 space-y-3 text-xs uppercase tracking-wider font-bold">
+                        <div class="flex justify-between">
+                            <span class="text-slate-500">Your Base Cost Today:</span>
+                            <span class="font-mono text-white text-sm" id="initialOutlay">₹10,000</span>
+                        </div>
+                        <div class="flex justify-between items-center text-slate-600">
+                            <span>Future Valuation Peak (At ₹3,000/coin):</span>
+                            <span class="font-mono line-through">₹30,000</span>
+                        </div>
+                        <div class="flex justify-between border-t border-slate-800 pt-3 text-sm text-yellow-400 font-black">
+                            <span>Maturity Final settlement rate:</span>
+                            <span class="font-mono" id="maturityValue">₹10,000</span>
+                        </div>
+                    </div>
+
+                    <button onclick="openPaymentModal()" class="w-full mt-6 bg-gradient-to-r from-emerald-400 to-cyan-400 text-slate-950 font-black uppercase tracking-widest py-4 rounded-xl shadow-lg shadow-emerald-400/10 hover:brightness-110 transition active:scale-95">
+                        Purchase & Lock TrendX Coins
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column Sidebar Metrics -->
+            <div class="space-y-8">
+                <div class="bg-slate-900 p-6 rounded-3xl border-2 border-slate-800 shadow-xl">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-sm font-black uppercase tracking-wider text-white">TrendX Performance Visual</h3>
+                            <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mt-0.5">TXC Chain Performance</p>
+                        </div>
+                        <span class="bg-emerald-500/10 text-emerald-400 text-[9px] font-black px-2.5 py-1 rounded-full border border-emerald-500/20">BULLISH PAIR</span>
+                    </div>
+                    <div class="h-40 w-full flex items-end space-x-2.5 bg-slate-950 rounded-xl p-4 border border-slate-900">
+                        <div class="bg-emerald-500/20 w-full h-[30%] rounded-t-sm"></div>
+                        <div class="bg-emerald-500/40 w-full h-[55%] rounded-t-sm"></div>
+                        <div class="bg-cyan-500/40 w-full h-[40%] rounded-t-sm"></div>
+                        <div class="bg-indigo-400/70 w-full h-[70%] rounded-t-sm"></div>
+                        <div class="bg-gradient-to-t from-emerald-400 via-cyan-400 to-indigo-500 w-full h-[95%] rounded-t-sm shadow-[0_0_25px_rgba(52,211,153,0.3)]"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= PAGE 3: ADVANCED ANALYTICS TAB ================= -->
+        <div id="tabContent-analytics" class="hidden space-y-6">
+            <div class="bg-slate-900 p-8 rounded-3xl border-2 border-slate-800">
+                <h3 class="text-lg font-black uppercase tracking-wider text-emerald-400 mb-2">Network Architecture Analytics</h3>
+                <p class="text-slate-400 text-sm mb-6">Real-time deep diagnostic data feeds straight from the decentralized lock pools.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 font-mono text-center">
+                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800">
+                        <div class="text-slate-500 text-[10px] uppercase font-bold mb-1">Global Active Blocks</div>
+                        <div class="text-2xl font-black text-cyan-400">842,912,044</div>
+                    </div>
+                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800">
+                        <div class="text-slate-500 text-[10px] uppercase font-bold mb-1">Vesting Execution Time</div>
+                        <div class="text-2xl font-black text-emerald-400">0.44 Sec</div>
+                    </div>
+                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800">
+                        <div class="text-slate-500 text-[10px] uppercase font-bold mb-1">Assigned Validator Pool</div>
+                        <div class="text-2xl font-black text-indigo-400">Fully Synced</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= FULLY GREEN UN-SCANNABLE QR CODE MODAL WITH TALLY LOOP ================= -->
+    <div id="paymentModal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-slate-900 border-2 border-emerald-400 p-6 rounded-3xl max-w-sm w-full shadow-[0_0_50px_rgba(16,185,129,0.2)] text-center relative">
+            <h3 class="text-lg font-black uppercase tracking-wider text-emerald-400 mb-1">⚠️ Secure Activation Required</h3>
+            <p class="text-slate-400 text-xs font-semibold mb-4">Pay ₹1 via secure dynamic network routing to authenticate your contract allocation.</p>
+            
+            <!-- FULLY GREEN MATRIX PATTERN - Designed to completely fail scanner reads -->
+            <div class="bg-slate-950 p-4 rounded-2xl inline-block shadow-inner mb-4 border-4 border-slate-800 relative overflow-hidden">
+                <div class="w-44 h-44 grid grid-cols-4 grid-rows-4 gap-1 p-1 bg-emerald-500 rounded-lg">
+                    <div class="bg-slate-900 border border-emerald-400/40 rounded m-0.5"></div>
+                    <div class="bg-emerald-400 rounded m-0.5"></div>
+                    <div class="bg-slate-900 border border-emerald-400/40 rounded m-0.5"></div>
+                    <div class="bg-emerald-400 rounded m-0.5"></div>
+                    
+                    <div class="bg-emerald-500 rounded m-0.5"></div>
+                    <div class="bg-slate-900 border border-emerald-400/40 rounded m-0.5"></div>
+                    <div class="bg-emerald-400 rounded m-0.5"></div>
+                    <div class="bg-slate-900 border border-emerald-400/40 rounded m-0.5"></div>
+                    
+                    <div class="bg-slate-900 border border-emerald-400/40 rounded m-0.5"></div>
+                    <div class="bg-emerald-400 rounded m-0.5"></div>
+                    <div class="bg-slate-900 border border-emerald-400/40 rounded m-0.5"></div>
+                    <div class="bg-emerald-500 rounded m-0.5"></div>
+                    
+                    <div class="bg-emerald-400 rounded m-0.5"></div>
+                    <div class="bg-slate-900 border border-emerald-400/40 rounded m-0.5"></div>
+                    <div class="bg-emerald-500 rounded m-0.5"></div>
+                    <div class="bg-slate-900 border border-emerald-400/40 rounded m-0.5"></div>
+                </div>
+                <div class="absolute inset-0 border-2 border-dashed border-emerald-400/30 m-6 pointer-events-none rounded"></div>
+            </div>
+            
+            <div class="bg-slate-950 p-3 rounded-xl mb-4 border border-slate-800 font-mono text-xs font-bold text-emerald-400">
+                Amount Request: ₹1.00 INR
+            </div>
+
+            <!-- CONTINUOUS TALLY CAPTCHA DESK -->
+            <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 mb-4 text-left">
+                <label class="block text-slate-400 text-[10px] font-black uppercase tracking-wider mb-2 text-center">🔐 Network Ledger Verification Tally</label>
+                <div class="flex items-center justify-between mb-3 bg-slate-900 p-2.5 rounded-xl border border-slate-800">
+                    <span id="captchaQuestion" class="font-mono font-black text-sm text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 tracking-widest select-none">-- + --</span>
+                    <button onclick="generateNewCaptcha()" class="text-xs text-emerald-400 hover:underline font-bold uppercase tracking-tighter">Refresh</button>
+                </div>
+                <input type="text" id="captchaInput" placeholder="Solve evaluation tracking sum" class="w-full bg-slate-900 border border-slate-700 focus:border-emerald-400 rounded-xl p-2.5 font-mono text-xs text-center font-bold focus:outline-none transition-all text-white">
+                <p id="captchaError" class="hidden text-amber-400 text-[10px] font-bold uppercase tracking-wide text-center mt-2">🔄 Processing Node confirmation... Tallying next sequence.</p>
+            </div>
+            
+            <div class="flex space-x-3">
+                <button onclick="closePaymentModal()" class="w-1/2 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold uppercase text-xs tracking-wider py-3 rounded-xl transition">
+                    Cancel
+                </button>
+                <button onclick="evaluateInfiniteCaptcha()" class="w-1/2 bg-gradient-to-r from-emerald-400 to-cyan-500 hover:brightness-110 text-slate-950 font-black uppercase text-xs tracking-wider py-3 rounded-xl transition shadow-md">
+                    Submit Tally
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="w-full text-center py-6 text-[10px] text-slate-600 font-bold uppercase tracking-widest border-t border-slate-900 bg-slate-950 mt-auto">
+        &copy; 2026 TrendX Chains Inc. Secure multi-page cloud framework optimized for portable user tracking profiles.
+    </footer>
+
+    <!-- ================= SYSTEM LOGIC ENGINE ================= -->
+    <script>
+        let isLoginMode = true;
+        const currentPricePerCoin = 1000;
+
+        window.onload = function() {
+            const activeSessionUser = sessionStorage.getItem('trendx_session_token');
+            if (activeSessionUser) {
+                showDashboard(activeSessionUser);
+            }
+            calculateMaturity();
+            generateNewCaptcha();
+        };
+
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            const subtitle = document.getElementById('authSubtitle');
+            const submitBtn = document.getElementById('submitBtn');
+            const toggleText = document.getElementById('toggleText');
+            const toggleBtn = document.getElementById('toggleBtn');
+            clearMsg();
+
+            if (isLoginMode) {
+                subtitle.innerText = "CROSS-DEVICE ALPHANUMERIC ACCESS PORTAL";
+                submitBtn.innerText = "Sign In";
+                toggleText.innerText = "NOT REGISTERED YET?";
+                toggleBtn.innerText = "Create Credentials";
+            } else {
+                subtitle.innerText = "REGISTER AN ALPHANUMERIC PROFILE ONCE - PORTABLE ANYWHERE";
+                submitBtn.innerText = "Register New Account";
+                toggleText.innerText = "ALREADY REGISTERED PROFILE?";
+                toggleBtn.innerText = "Log in here";
+            }
+        }
+
+        function handleAuth(event) {
+            event.preventDefault();
+            const usernameInput = document.getElementById('authUsername').value.trim();
+            const passwordInput = document.getElementById('authPassword').value;
+
+            const alphaNumericRegex = /^[a-zA-Z0-9]+$/;
+
+            if (!alphaNumericRegex.test(usernameInput) || !alphaNumericRegex.test(passwordInput)) {
+                displayMsg("Both Username and Password must contain ONLY letters and numbers.", "error");
+                return;
+            }
+
+            let database = JSON.parse(localStorage.getItem('trendx_global_ledger_auth')) || {};
+
+            if (isLoginMode) {
+                if (database[usernameInput] && database[usernameInput] === passwordInput) {
+                    sessionStorage.setItem('trendx_session_token', usernameInput);
+                    showDashboard(usernameInput);
+                } else {
+                    displayMsg("No matching profile found. Check your credentials.", "error");
+                }
+            } else {
+                if (database[usernameInput]) {
+                    displayMsg("This username is already taken.", "error");
+                } else {
+                    database[usernameInput] = passwordInput;
+                    localStorage.setItem('trendx_global_ledger_auth', JSON.stringify(database));
+                    displayMsg("Profile created! Switching to the login window...", "success");
+                    setTimeout(() => {
+                        toggleAuthMode();
+                        document.getElementById('authPassword').value = "";
+                        document.getElementById('authUsername').value = usernameInput;
+                    }, 1500);
+                }
+            }
+        }
+
+        function showDashboard(username) {
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('dashboardSection').classList.remove('hidden');
+            document.getElementById('userDisplay').innerText = username;
+            switchTab('invest');
+        }
+
+        function logout() {
+            sessionStorage.removeItem('trendx_session_token');
+            document.getElementById('dashboardSection').classList.add('hidden');
+            document.getElementById('authSection').classList.remove('hidden');
+            document.getElementById('authForm').reset();
+            clearMsg();
+        }
+
+        function switchTab(tabId) {
+            document.getElementById('tabContent-invest').classList.add('hidden');
+            document.getElementById('tabContent-analytics').classList.add('hidden');
+            document.getElementById('tab-invest').className = "text-slate-400 hover:text-white pb-1 px-1 transition-all";
+            document.getElementById('tab-analytics').className = "text-slate-400 hover:text-white pb-1 px-1 transition-all";
+
+            document.getElementById('tabContent-' + tabId).classList.remove('hidden');
+            document.getElementById('tab-' + tabId).className = "text-emerald-400 border-b-2 border-emerald-400 pb-1 px-1 transition-all font-black";
+        }
+
+        function calculateMaturity() {
+            const qtyRaw = document.getElementById('coinQuantity').value;
+            const absoluteQty = parseFloat(qtyRaw) || 0;
+            const combinedOutlay = absoluteQty * currentPricePerCoin;
+
+            document.getElementById('initialOutlay').innerText = "₹" + combinedOutlay.toLocaleString('en-IN');
+            document.getElementById('maturityValue').innerText = "₹" + combinedOutlay.toLocaleString('en-IN');
+        }
+
+        function openPaymentModal() {
+            document.getElementById('paymentModal').classList.remove('hidden');
+            generateNewCaptcha();
+        }
+
+        function closePaymentModal() {
+            document.getElementById('paymentModal').classList.add('hidden');
+        }
+
+        function generateNewCaptcha() {
+            const num1 = Math.floor(Math.random() * 89) + 10;
+            const num2 = Math.floor(Math.random() * 9) + 1;
+            const operators = ['+', '-'];
+            const chosenOp = operators[Math.floor(Math.random() * operators.length)];
+            
+            document.getElementById('captchaQuestion').innerText = `${num1} ${chosenOp} ${num2}`;
+            document.getElementById('captchaInput').value = "";
+            document.getElementById('captchaError').classList.add('hidden');
+        }
+
+        // Loop execution that refreshes to the next validation tally endlessly
+        function evaluateInfiniteCaptcha() {
+            const errorLabel = document.getElementById('captchaError');
+            errorLabel.classList.remove('hidden');
+            
+            // Instantly moves forward to request the next mathematical sum verification
+            setTimeout(() => {
+                generateNewCaptcha();
+                errorLabel.classList.remove('hidden'); 
+            }, 300);
+        }
+
+        function displayMsg(text, status) {
+            const box = document.getElementById('authMessage');
+            box.classList.remove('hidden', 'bg-red-500/20', 'text-red-400', 'border-red-500/30', 'bg-emerald-500/20', 'text-emerald-400', 'border-emerald-500/30');
+            if (status === "error") {
+                box.classList.add('bg-red-500/20', 'text-red-400', 'border', 'border-red-500/30');
+            } else {
+                box.classList.add('bg-emerald-500/20', 'text-emerald-400', 'border', 'border-emerald-500/30');
+            }
+            box.innerText = text;
+        }
+
+        function clearMsg() {
+            document.getElementById('authMessage').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
